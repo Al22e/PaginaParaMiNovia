@@ -101,8 +101,8 @@
             margin-top: 2vw;
             position: relative;
             overflow: hidden;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 20px;
+            padding: 20px;
         }
 
         img {
@@ -280,7 +280,7 @@
             }
         }
 
-        @media (max-width: 768px) and (orientation: portrait) {
+        @media (max-width: 768px) {
             #clickButton {
                 font-size: 6vw;
                 padding: 10px 20px;
@@ -294,7 +294,6 @@
             .decoration {
                 width: 30vw;
                 height: 30vw;
-                margin-top: 5vw;
             }
 
             #futuristicMenu ul li {
@@ -314,17 +313,13 @@
             #imageContainer img {
                 max-width: 140%; /* Ajusta este valor según sea necesario */
             }
-
-            #dynamicCartel {
-                bottom: 9px;
-            }
         }
 
         /* Cartel dinámico */
         #dynamicCartel {
             display: none;
             position: absolute;
-            bottom: 10px;
+            top: -50px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(45deg, #ff0000, #2d2b3c);
@@ -339,11 +334,11 @@
 
         @keyframes slideInDown {
             from {
-                bottom: -50px;
+                top: -50px;
                 opacity: 0;
             }
             to {
-                bottom: 10px;
+                top: 10px;
                 opacity: 1;
             }
         }
