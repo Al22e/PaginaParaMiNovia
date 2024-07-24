@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>regalo de cumple</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -16,7 +19,7 @@
             background-color: #ffffff;
             position: relative;
             overflow: hidden;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'DotGothic16', sans-serif;
             transition: background-color 1s, background-image 1s;
         }
 
@@ -279,6 +282,32 @@
             }
         }
 
+        .instruction-container {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .instruction {
+            font-size: 3vw;
+            color: #ff0000;
+            font-family: 'DotGothic16', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulse 1s infinite;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
         @media (max-width: 768px) {
             #clickButton {
                 font-size: 6vw;
@@ -302,6 +331,15 @@
             #optionText {
                 font-size: 4vw;
                 padding: 2vw;
+            }
+
+            img {
+                max-width: 150%;
+                height: auto;
+            }
+
+            .instruction {
+                font-size: 4vw;
             }
         }
     </style>
@@ -334,6 +372,10 @@
         <div id="optionText"></div>
     </div>
 
+    <div class="instruction-container">
+        <div class="instruction">Haz clic en la imagen para desplegar el menú</div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.3/dist/confetti.browser.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -349,6 +391,7 @@
             const futuristicMenu = document.getElementById('futuristicMenu');
             const optionText = document.getElementById('optionText');
             const contentWrapper = document.getElementById('contentWrapper');
+            const instruction = document.querySelector('.instruction');
 
             const optionMessages = {
                 option1: 'Siempre que pienso en ti pienso en mi futuro contigo, en que hacer para hacerte feliz, para asi poder ganarme tu eterno amor que quiero que sea solo mio, agradesco a dios y a jesucristo por mantenerte con vida y darte las fuerzas para no quitarte la vida en tus situaciones mas feas, ya que gracias a eso puedo disfrutar estar contigo',
@@ -407,6 +450,7 @@
                             futuristicMenu.style.display = 'block';
                             contentWrapper.style.filter = 'blur(5px)';
                             confettiButton.style.filter = 'blur(5px)';
+                            instruction.style.display = 'none';
                         }, 300);
                     }
                 });
@@ -425,6 +469,12 @@
                 }
             });
 
+            document.addEventListener('click', (event) => {
+                if (!futuristicMenu.contains(event.target) && !imageContainer.contains(event.target)) {
+                    resetState();
+                }
+            });
+
             function resetState() {
                 const image = imageContainer.querySelector('img');
                 image.style.transform = 'none';
@@ -432,8 +482,10 @@
                 contentWrapper.style.filter = 'none';
                 confettiButton.style.filter = 'none';
                 optionText.style.display = 'none';
+                instruction.style.display = 'block';
             }
         });
     </script>
 </body>
 </html>
+
