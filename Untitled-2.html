@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -319,7 +320,7 @@
         #dynamicCartel {
             display: none;
             position: absolute;
-            top: 10px; /* Ajustado para móviles */
+            top: -50px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(45deg, #ff0000, #2d2b3c);
@@ -338,7 +339,7 @@
                 opacity: 0;
             }
             to {
-                top: 10px; /* Ajustado para móviles */
+                top: 10px;
                 opacity: 1;
             }
         }
@@ -348,43 +349,15 @@
             50% { transform: translateX(-50%) scale(1.1); }
             100% { transform: translateX(-50%) scale(1); }
         }
-
-/* Globos de fondo */
-#balloonCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1; /* Asegurarse de que está detrás de todo */
-}
-
-/* Imagen en movimiento */
-#movingImage {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2; /* Asegurar que no se superpone a otras imágenes */
-    animation: moveImage 10s linear infinite;
-}
-
-@keyframes moveImage {
-    from { right: 100%; }
-    to { right: -100%; }
-}
     </style>
 </head>
 <body>
-    <canvas id="balloonCanvas"></canvas> <!-- Globos de fondo -->
     <div class="content-wrapper" id="contentWrapper">
         <div class="container">
             <button id="clickButton">Haz clic aquí</button>
             <div id="imageContainer"></div>
         </div>
     </div>
-
-    <img id="movingImage" src="tu-imagen.png" alt="Imagen en movimiento" width="200"> <!-- Imagen en movimiento -->
 
     <button id="confettiButton">🎉</button>
 
@@ -425,9 +398,6 @@
             const optionText = document.getElementById('optionText');
             const contentWrapper = document.getElementById('contentWrapper');
             const dynamicCartel = document.getElementById('dynamicCartel');
-            const movingImage = document.getElementById('movingImage');
-            const balloonCanvas = document.getElementById('balloonCanvas');
-            const ctx = balloonCanvas.getContext('2d');
 
             const optionMessages = {
                 option1: 'Siempre que pienso en ti pienso en mi futuro contigo, en que hacer para hacerte feliz, para asi poder ganarme tu eterno amor que quiero que sea solo mio, agradesco a dios y a jesucristo por mantenerte con vida y darte las fuerzas para no quitarte la vida en tus situaciones mas feas, ya que gracias a eso puedo disfrutar estar contigo',
@@ -449,7 +419,6 @@
                 balloons.style.display = 'block';
                 cake.style.display = 'block';
                 enableScrolling();
-                startBalloonAnimation();
             });
 
             confettiButton.addEventListener('click', () => {
@@ -521,64 +490,6 @@
                 confettiButton.style.filter = 'none';
                 optionText.style.display = 'none';
             }
-
-          function startBalloonAnimation() {
-    const balloons = [];
-    for (let i = 0; i < 20; i++) {
-        balloons.push(new Balloon());
-    }
-
-    function Balloon() {
-        this.x = Math.random() * balloonCanvas.width;
-        this.y = balloonCanvas.height + Math.random() * balloonCanvas.height;
-        this.speed = Math.random() * 3 + 1;
-        this.size = Math.random() * 20 + 20;
-        this.color = getRandomColor();
-    }
-
-    Balloon.prototype.draw = function() {
-        ctx.beginPath();
-        ctx.ellipse(this.x, this.y, this.size * 0.6, this.size, 0, 0, 2 * Math.PI);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-        ctx.stroke();
-        ctx.closePath();
-    };
-
-    Balloon.prototype.update = function() {
-        this.y -= this.speed;
-        if (this.y < -this.size) {
-            this.y = balloonCanvas.height + this.size;
-            this.x = Math.random() * balloonCanvas.width;
-        }
-        this.draw();
-    };
-
-    function getRandomColor() {
-        const colors = ['#FF5733', '#FFC300', '#DAF7A6', '#C70039', '#900C3F', '#581845'];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, balloonCanvas.width, balloonCanvas.height);
-        balloons.forEach(balloon => balloon.update());
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-}
-
-                animate();
-            }
-
-            window.addEventListener('resize', () => {
-                balloonCanvas.width = window.innerWidth;
-                balloonCanvas.height = window.innerHeight;
-            });
-
-            window.dispatchEvent(new Event('resize'));
         });
     </script>
 </body>
