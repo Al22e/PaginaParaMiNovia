@@ -100,8 +100,8 @@
             margin-top: 2vw;
             position: relative;
             overflow: hidden;
-            border-radius: 79px;
-            padding: 79px;
+            border-radius: 20px;
+            padding: 20px;
         }
 
         img {
@@ -303,6 +303,45 @@
                 font-size: 4vw;
                 padding: 2vw;
             }
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        /* Cartel dinámico */
+        #dynamicCartel {
+            display: none;
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff6ec4, #7873f5);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            font-size: 2vw;
+            animation: slideInDown 1s forwards, pulsate 1.5s infinite;
+            text-align: center;
+        }
+
+        @keyframes slideInDown {
+            from {
+                top: -50px;
+                opacity: 0;
+            }
+            to {
+                top: 10px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulsate {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
         }
     </style>
 </head>
@@ -334,6 +373,9 @@
         <div id="optionText"></div>
     </div>
 
+    <!-- Cartel Dinámico -->
+    <div id="dynamicCartel">Presiona la imagen</div>
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.3/dist/confetti.browser.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -349,6 +391,7 @@
             const futuristicMenu = document.getElementById('futuristicMenu');
             const optionText = document.getElementById('optionText');
             const contentWrapper = document.getElementById('contentWrapper');
+            const dynamicCartel = document.getElementById('dynamicCartel');
 
             const optionMessages = {
                 option1: 'Siempre que pienso en ti pienso en mi futuro contigo, en que hacer para hacerte feliz, para asi poder ganarme tu eterno amor que quiero que sea solo mio, agradesco a dios y a jesucristo por mantenerte con vida y darte las fuerzas para no quitarte la vida en tus situaciones mas feas, ya que gracias a eso puedo disfrutar estar contigo',
@@ -393,6 +436,7 @@
             function showImage() {
                 imageContainer.style.display = 'block';
                 imageContainer.innerHTML = '<img src="Sin título.png" alt="Confeti" width="640">';
+                dynamicCartel.style.display = 'block';
                 window.scrollTo({
                     top: document.body.scrollHeight,
                     behavior: 'smooth'
@@ -403,6 +447,7 @@
                         resetState();
                     } else {
                         image.style.transform = 'rotate(30deg) scale(0.8)';
+                        dynamicCartel.style.display = 'none';
                         setTimeout(() => {
                             futuristicMenu.style.display = 'block';
                             contentWrapper.style.filter = 'blur(5px)';
@@ -425,6 +470,10 @@
                 }
             });
 
+            document.addEventListener('click', () => {
+                resetState();
+            });
+
             function resetState() {
                 const image = imageContainer.querySelector('img');
                 image.style.transform = 'none';
@@ -436,3 +485,4 @@
         });
     </script>
 </body>
+</html>
