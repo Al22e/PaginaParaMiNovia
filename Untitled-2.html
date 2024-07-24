@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,7 +17,7 @@
             background-color: #ffffff;
             position: relative;
             overflow: hidden;
-            font-family: 'DotGothic16', sans-serif; /* Nueva fuente aplicada */
+            font-family: 'DotGothic16', sans-serif;
             transition: background-color 1s, background-image 1s;
         }
 
@@ -77,26 +76,6 @@
             100% { background: linear-gradient(45deg, #6b0f1a, #b91372); }
         }
 
-        #confettiButton {
-            display: none;
-            position: absolute;
-            top: 2vw;
-            right: 2vw;
-            padding: 10px 20px;
-            font-size: 4vw;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        #confettiButton:hover {
-            background-color: #0056b3;
-            transform: scale(1.2);
-        }
-
         #imageContainer {
             display: none;
             margin-top: 2vw;
@@ -135,6 +114,7 @@
             padding: 10px;
             border-radius: 15px;
             position: relative;
+            cursor: pointer;
         }
 
         .decoration.balloons {
@@ -185,6 +165,12 @@
             60% {
                 transform: translateY(-15px);
             }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         #futuristicMenu {
@@ -287,11 +273,6 @@
                 padding: 10px 20px;
             }
 
-            #confettiButton {
-                font-size: 6vw;
-                padding: 5px 10px;
-            }
-
             .decoration {
                 width: 30vw;
                 height: 30vw;
@@ -312,7 +293,7 @@
             }
 
             #imageContainer img {
-                max-width: 140%; /* Ajusta este valor según sea necesario */
+                max-width: 140%;
             }
         }
 
@@ -349,6 +330,27 @@
             50% { transform: translateX(-50%) scale(1.1); }
             100% { transform: translateX(-50%) scale(1); }
         }
+
+        /* Partículas de fondo */
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            animation: moveParticle 10s linear infinite;
+        }
+
+        @keyframes moveParticle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(800px) translateX(-200px);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -358,8 +360,6 @@
             <div id="imageContainer"></div>
         </div>
     </div>
-
-    <button id="confettiButton">🎉</button>
 
     <div class="corner-decorations">
         <div class="decoration balloons"></div>
@@ -386,7 +386,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const clickButton = document.getElementById('clickButton');
-            const confettiButton = document.getElementById('confettiButton');
             const shortSound = document.getElementById('shortSound');
             const confettiSound = document.getElementById('confettiSound');
             const musicSound = document.getElementById('musicSound');
@@ -410,33 +409,71 @@
             clickButton.addEventListener('click', () => {
                 document.body.classList.add('dynamic-bg');
                 playSound(shortSound);
-                playSound(confettiSound);
-                playSound(musicSound);
+                playSound(confettiSound, true);
+                musicSound.play();
                 showConfetti();
                 showImage();
                 clickButton.style.display = 'none';
-                confettiButton.style.display = 'block';
                 balloons.style.display = 'block';
                 cake.style.display = 'block';
                 enableScrolling();
+                triggerConfettiRounds();
+                createParticles();
             });
 
-            confettiButton.addEventListener('click', () => {
-                playSound(confettiSound);
-                showConfetti();
+            balloons.addEventListener('click', () => {
+                if (!balloons.classList.contains('disabled')) {
+                    playSound(confettiSound, true);
+                    showConfettiAtElement(balloons, ['#ff0', '#f0f', '#0ff']);
+                    animateDecoration(balloons);
+                }
             });
 
-            function playSound(sound) {
-                const clone = sound.cloneNode();
-                clone.play();
+            cake.addEventListener('click', () => {
+                if (!cake.classList.contains('disabled')) {
+                    playSound(confettiSound, true);
+                    showConfettiAtElement(cake, ['#ff0', '#0f0', '#00f']);
+                    animateDecoration(cake);
+                }
+            });
+
+            function playSound(sound, clone = false) {
+                if (clone) {
+                    const cloneSound = sound.cloneNode();
+                    cloneSound.play();
+                } else {
+                    sound.currentTime = 0;
+                    sound.play();
+                }
             }
 
-            function showConfetti() {
+            function showConfetti(colors = ['#ff0', '#f0f', '#0ff']) {
                 confetti({
                     particleCount: 100,
                     spread: 160,
-                    origin: { y: 0.6 }
+                    origin: { y: 0.6 },
+                    colors: colors
                 });
+            }
+
+            function showConfettiAtElement(element, colors = ['#ff0', '#f0f', '#0ff']) {
+                const rect = element.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+
+                confetti({
+                    particleCount: 100,
+                    spread: 160,
+                    origin: { x: x / window.innerWidth, y: y / window.innerHeight },
+                    colors: colors
+                });
+            }
+
+            function animateDecoration(element) {
+                element.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    element.style.animation = '';
+                }, 500);
             }
 
             function showImage() {
@@ -457,7 +494,6 @@
                         setTimeout(() => {
                             futuristicMenu.style.display = 'block';
                             contentWrapper.style.filter = 'blur(5px)';
-                            confettiButton.style.filter = 'blur(5px)';
                         }, 300);
                     }
                 });
@@ -487,8 +523,63 @@
                 image.style.transform = 'none';
                 futuristicMenu.style.display = 'none';
                 contentWrapper.style.filter = 'none';
-                confettiButton.style.filter = 'none';
                 optionText.style.display = 'none';
+            }
+
+            function triggerConfettiRounds() {
+                balloons.classList.add('disabled');
+                cake.classList.add('disabled');
+                setTimeout(() => {
+                    triggerConfettiAtElement(balloons, ['#ff0', '#f0f', '#0ff']);
+                }, 1000);
+                setTimeout(() => {
+                    triggerConfettiAtElement(cake, ['#ff0', '#0f0', '#00f']);
+                }, 2000);
+                setTimeout(() => {
+                    triggerConfettiAtElement(balloons, ['#ff0', '#f0f', '#0ff']);
+                }, 3000);
+                setTimeout(() => {
+                    triggerConfettiAtElement(cake, ['#ff0', '#0f0', '#00f']);
+                }, 4000);
+                setTimeout(() => {
+                    triggerConfettiAtElement(balloons, ['#ff0', '#f0f', '#0ff']);
+                }, 5000);
+                setTimeout(() => {
+                    triggerConfettiAtElement(cake, ['#ff0', '#0f0', '#00f']);
+                    balloons.classList.remove('disabled');
+                    cake.classList.remove('disabled');
+                }, 6000);
+            }
+
+            function triggerConfettiAtElement(element, colors) {
+                playSound(confettiSound, true);
+                showConfettiAtElement(element, colors);
+            }
+
+            function createParticles() {
+                const particleCount = 50;
+                for (let i = 0; i < particleCount; i++) {
+                    createParticle();
+                }
+            }
+
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                document.body.appendChild(particle);
+                const delay = Math.random() * 10;
+                const duration = Math.random() * 10 + 5;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * -100}px`;
+                particle.style.width = '5px';  // More aesthetic size
+                particle.style.height = '5px'; // More aesthetic size
+                particle.style.backgroundColor = `rgba(255, 255, 255, ${Math.random()})`; // Aesthetic color
+                setTimeout(() => {
+                    particle.remove();
+                    createParticle();
+                }, (delay + duration) * 1000);
             }
         });
     </script>
