@@ -311,7 +311,7 @@
             }
 
             #imageContainer img {
-                max-width: 100%; /* Ajusta este valor según sea necesario */
+                max-width: 140%; /* Ajusta este valor según sea necesario */
             }
         }
 
@@ -475,8 +475,10 @@
                 }
             });
 
-            document.addEventListener('click', () => {
-                resetState();
+            document.addEventListener('click', (event) => {
+                if (!futuristicMenu.contains(event.target) && !imageContainer.contains(event.target)) {
+                    resetState();
+                }
             });
 
             function resetState() {
