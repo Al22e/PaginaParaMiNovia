@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>regalo de cumple</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 1s, background-image 1s;
+        }
+
+        body.dynamic-bg {
+            background-color: #000000;
+            background-image: radial-gradient(circle, rgba(128, 0, 128, 0.8), rgba(0, 0, 0, 0.8));
+            animation: dynamicBackground 5s infinite;
+        }
+
+        @keyframes dynamicBackground {
+            0% { background-color: #000000; }
+            25% { background-color: #6a0dad; }
+            50% { background-color: #ff0000; }
+            75% { background-color: #800080; }
+            100% { background-color: #000000; }
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            max-width: 600px;
+            overflow-y: auto;
+            max-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: filter 0.3s;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+        }
+
+        #clickButton {
+            display: block;
+            margin: 0 auto;
+            padding: 15px 30px;
+            font-size: 4vw;
+            cursor: pointer;
+            background: linear-gradient(45deg, #6b0f1a, #b91372);
+            color: white;
+            border: none;
+            border-radius: 255px;
+            transition: background 2s;
+            animation: colorChange 5s infinite;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes colorChange {
+            0% { background: linear-gradient(45deg, #6b0f1a, #b91372); }
+            25% { background: linear-gradient(45deg, #28a745, #218838); }
+            50% { background: linear-gradient(45deg, #dc3545, #c82333); }
+            75% { background: linear-gradient(45deg, #ffc107, #e0a800); }
+            100% { background: linear-gradient(45deg, #6b0f1a, #b91372); }
+        }
+
+        #confettiButton {
+            display: none;
+            position: absolute;
+            top: 2vw;
+            right: 2vw;
+            padding: 10px 20px;
+            font-size: 4vw;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #confettiButton:hover {
+            background-color: #0056b3;
+            transform: scale(1.2);
+        }
+
+        #imageContainer {
+            display: none;
+            margin-top: 2vw;
+            position: relative;
+            overflow: hidden;
+            border-radius: 79px;
+            padding: 79px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 5px solid;
+            border-image: linear-gradient(45deg, #f3ec78, #af4261) 1;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .corner-decorations {
+            display: none;
+            position: absolute;
+            bottom: 2vw;
+            left: 2vw;
+            right: 2vw;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .decoration {
+            width: 20vw;
+            height: 20vw;
+            background-size: contain;
+            background-repeat: no-repeat;
+            padding: 10px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .decoration.balloons {
+            display: none;
+            background-image: url('Kuromi 2.png');
+            animation: bounce 2s infinite;
+        }
+
+        .decoration.balloons::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 10px 5px rgba(128, 0, 128, 0.5);
+            z-index: -1;
+            animation: bounce 2s infinite;
+        }
+
+        .decoration.cake {
+            display: none;
+            background-image: url('Promesse__-removebg-preview.png');
+            animation: bounce 2s infinite;
+        }
+
+        .decoration.cake::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 10px 5px rgba(128, 0, 128, 0.5);
+            z-index: -1;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        #futuristicMenu {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2vw;
+            text-align: center;
+            z-index: 1000;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        #futuristicMenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #futuristicMenu ul li {
+            display: inline-block;
+            margin: 1vw;
+            cursor: pointer;
+            padding: 1vw 2vw;
+            background: linear-gradient(45deg, rgb(107, 107, 107), #00d2ff);
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        #futuristicMenu ul li:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        #futuristicMenu ul li:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        #futuristicMenu ul li:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #futuristicMenu ul li:hover {
+            background: linear-gradient(45deg, #b80303, #008cff);
+            transform: scale(1.1);
+        }
+
+        #optionText {
+            display: none;
+            margin-top: 2vw;
+            font-size: 2vw;
+            background: #c00096;
+            padding: 1vw;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeInText 0.5s forwards;
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #clickButton {
+                font-size: 6vw;
+                padding: 10px 20px;
+            }
+
+            #confettiButton {
+                font-size: 6vw;
+                padding: 5px 10px;
+            }
+
+            .decoration {
+                width: 30vw;
+                height: 30vw;
+            }
+
+            #futuristicMenu ul li {
+                padding: 2vw 4vw;
+            }
+
+            #optionText {
+                font-size: 4vw;
+                padding: 2vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper" id="contentWrapper">
+        <div class="container">
+            <button id="clickButton">Haz clic aquí</button>
+            <div id="imageContainer"></div>
+        </div>
+    </div>
+
+    <button id="confettiButton">🎉</button>
+
+    <div class="corner-decorations">
+        <div class="decoration balloons"></div>
+        <div class="decoration cake"></div>
+    </div>
+
+    <audio id="shortSound" src="short-sound.mp3"></audio>
+    <audio id="confettiSound" src="confeti.mp3"></audio>
+    <audio id="musicSound" src="Cumpleaños Feliz.mp3" loop></audio>
+
+    <div id="futuristicMenu">
+        <ul>
+            <li data-option="option1">Pensamiento 1</li>
+            <li data-option="option2">Pensamiento 2</li>
+            <li data-option="option3">Pensamiento 3</li>
+        </ul>
+        <div id="optionText"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.3/dist/confetti.browser.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const clickButton = document.getElementById('clickButton');
+            const confettiButton = document.getElementById('confettiButton');
+            const shortSound = document.getElementById('shortSound');
+            const confettiSound = document.getElementById('confettiSound');
+            const musicSound = document.getElementById('musicSound');
+            const imageContainer = document.getElementById('imageContainer');
+            const cornerDecorations = document.querySelector('.corner-decorations');
+            const balloons = document.querySelector('.decoration.balloons');
+            const cake = document.querySelector('.decoration.cake');
+            const futuristicMenu = document.getElementById('futuristicMenu');
+            const optionText = document.getElementById('optionText');
+            const contentWrapper = document.getElementById('contentWrapper');
+
+            const optionMessages = {
+                option1: 'Siempre que pienso en ti pienso en mi futuro contigo, en que hacer para hacerte feliz, para asi poder ganarme tu eterno amor que quiero que sea solo mio, agradesco a dios y a jesucristo por mantenerte con vida y darte las fuerzas para no quitarte la vida en tus situaciones mas feas, ya que gracias a eso puedo disfrutar estar contigo',
+                option2: 'Siempre que pienso en ti pienso en lo hermosa que te ves, Pienso en lo hermoso que son tus ojos o tu risa, el como tu voz acompaña tu linda apariencia de niña bonita',
+                option3: 'Siempre que pienso en ti pienso en lo emocionada y apasionada que eres en lo que amas y a quienes amas, amo lo dedicada que eres no solo a tus deportes, si no a todo lo que amas, tu forma de expresarte, ser y sentir son simplemente unicos de ti  y eso es lo que me hace poner mi atencion solo en ti'
+            };
+
+            confettiSound.volume = 0.5;
+
+            clickButton.addEventListener('click', () => {
+                document.body.classList.add('dynamic-bg');
+                playSound(shortSound);
+                playSound(confettiSound);
+                playSound(musicSound);
+                showConfetti();
+                showImage();
+                clickButton.style.display = 'none';
+                confettiButton.style.display = 'block';
+                balloons.style.display = 'block';
+                cake.style.display = 'block';
+                enableScrolling();
+            });
+
+            confettiButton.addEventListener('click', () => {
+                playSound(confettiSound);
+                showConfetti();
+            });
+
+            function playSound(sound) {
+                const clone = sound.cloneNode();
+                clone.play();
+            }
+
+            function showConfetti() {
+                confetti({
+                    particleCount: 100,
+                    spread: 160,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            function showImage() {
+                imageContainer.style.display = 'block';
+                imageContainer.innerHTML = '<img src="Sin título.png" alt="Confeti" width="540">';
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                });
+                const image = imageContainer.querySelector('img');
+                image.addEventListener('click', () => {
+                    if (image.style.transform === 'rotate(30deg) scale(0.8)') {
+                        resetState();
+                    } else {
+                        image.style.transform = 'rotate(30deg) scale(0.8)';
+                        setTimeout(() => {
+                            futuristicMenu.style.display = 'block';
+                            contentWrapper.style.filter = 'blur(5px)';
+                            confettiButton.style.filter = 'blur(5px)';
+                        }, 300);
+                    }
+                });
+            }
+
+            function enableScrolling() {
+                document.body.style.overflow = 'auto';
+            }
+
+            futuristicMenu.addEventListener('click', (event) => {
+                if (event.target.tagName === 'LI') {
+                    const option = event.target.getAttribute('data-option');
+                    optionText.style.display = 'block';
+                    optionText.textContent = optionMessages[option] || 'Texto no disponible';
+                    optionText.style.marginTop = '20px';
+                }
+            });
+
+            function resetState() {
+                const image = imageContainer.querySelector('img');
+                image.style.transform = 'none';
+                futuristicMenu.style.display = 'none';
+                contentWrapper.style.filter = 'none';
+                confettiButton.style.filter = 'none';
+                optionText.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
