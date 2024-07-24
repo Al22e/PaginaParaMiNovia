@@ -522,42 +522,53 @@
                 optionText.style.display = 'none';
             }
 
-            function startBalloonAnimation() {
-                const balloons = [];
-                for (let i = 0; i < 20; i++) {
-                    balloons.push(new Balloon());
-                }
+          function startBalloonAnimation() {
+    const balloons = [];
+    for (let i = 0; i < 20; i++) {
+        balloons.push(new Balloon());
+    }
 
-                function Balloon() {
-                    this.x = Math.random() * balloonCanvas.width;
-                    this.y = balloonCanvas.height + Math.random() * balloonCanvas.height;
-                    this.speed = Math.random() * 3 + 1;
-                    this.size = Math.random() * 20 + 20;
-                    this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                }
+    function Balloon() {
+        this.x = Math.random() * balloonCanvas.width;
+        this.y = balloonCanvas.height + Math.random() * balloonCanvas.height;
+        this.speed = Math.random() * 3 + 1;
+        this.size = Math.random() * 20 + 20;
+        this.color = getRandomColor();
+    }
 
-                Balloon.prototype.draw = function() {
-                    ctx.beginPath();
-                    ctx.ellipse(this.x, this.y, this.size * 0.6, this.size, 0, 0, 2 * Math.PI);
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                    ctx.closePath();
-                };
+    Balloon.prototype.draw = function() {
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.size * 0.6, this.size, 0, 0, 2 * Math.PI);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+        ctx.stroke();
+        ctx.closePath();
+    };
 
-                Balloon.prototype.update = function() {
-                    this.y -= this.speed;
-                    if (this.y < -this.size) {
-                        this.y = balloonCanvas.height + this.size;
-                        this.x = Math.random() * balloonCanvas.width;
-                    }
-                    this.draw();
-                };
+    Balloon.prototype.update = function() {
+        this.y -= this.speed;
+        if (this.y < -this.size) {
+            this.y = balloonCanvas.height + this.size;
+            this.x = Math.random() * balloonCanvas.width;
+        }
+        this.draw();
+    };
 
-                function animate() {
-                    ctx.clearRect(0, 0, balloonCanvas.width, balloonCanvas.height);
-                    balloons.forEach(balloon => balloon.update());
-                    requestAnimationFrame(animate);
-                }
+    function getRandomColor() {
+        const colors = ['#FF5733', '#FFC300', '#DAF7A6', '#C70039', '#900C3F', '#581845'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, balloonCanvas.width, balloonCanvas.height);
+        balloons.forEach(balloon => balloon.update());
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
 
                 animate();
             }
