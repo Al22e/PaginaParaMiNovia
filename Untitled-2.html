@@ -294,6 +294,7 @@
             .decoration {
                 width: 30vw;
                 height: 30vw;
+                margin-top: 2vw;
             }
 
             #futuristicMenu ul li {
@@ -319,7 +320,7 @@
         #dynamicCartel {
             display: none;
             position: absolute;
-            top: -50px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(45deg, #ff0000, #2d2b3c);
@@ -334,11 +335,11 @@
 
         @keyframes slideInDown {
             from {
-                top: -50px;
+                bottom: -50px;
                 opacity: 0;
             }
             to {
-                top: 10px;
+                bottom: 10px;
                 opacity: 1;
             }
         }
