@@ -88,11 +88,7 @@
         img {
             max-width: 100%;
             height: auto;
-            border: 5px solid;
-            border-image: linear-gradient(45deg, #f3ec78, #af4261) 1;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s;
-            border-radius: 7px;
             position: relative;
         }
 
@@ -351,6 +347,31 @@
                 opacity: 0;
             }
         }
+
+        /* Graffiti Image */
+        #graffitiImage {
+            display: none;
+            position: absolute;
+            top: 10vw; /* Adjust the top position */
+            left: 9vw; /* Adjust the left position */
+            max-width: 22vw; /* Adjust the max-width to control the size */
+            height: auto;
+            transform: rotate(-10deg);
+            filter: brightness(1.2);box
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        @keyframes graffitiMove {
+            0% {
+                transform: translateX(0) rotate(-10deg);
+            }
+            50% {
+                transform: translateX(10px) rotate(-10deg);
+            }
+            100% {
+                transform: translateX(0) rotate(-10deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -382,6 +403,9 @@
     <!-- Cartel Dinámico -->
     <div id="dynamicCartel">Presiona la imagen</div>
 
+    <!-- Graffiti Image -->
+    <img id="graffitiImage" src="Grafiti.png" alt="Graffiti">
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.3/dist/confetti.browser.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -397,6 +421,7 @@
             const optionText = document.getElementById('optionText');
             const contentWrapper = document.getElementById('contentWrapper');
             const dynamicCartel = document.getElementById('dynamicCartel');
+            const graffitiImage = document.getElementById('graffitiImage');
 
             const optionMessages = {
                 option1: 'Siempre que pienso en ti pienso en mi futuro contigo, en que hacer para hacerte feliz, para asi poder ganarme tu eterno amor que quiero que sea solo mio, agradesco a dios y a jesucristo por mantenerte con vida y darte las fuerzas para no quitarte la vida en tus situaciones mas feas, ya que gracias a eso puedo disfrutar estar contigo',
@@ -413,6 +438,7 @@
                 musicSound.play();
                 showConfetti();
                 showImage();
+                showGraffiti();
                 clickButton.style.display = 'none';
                 balloons.style.display = 'block';
                 cake.style.display = 'block';
@@ -580,6 +606,11 @@
                     particle.remove();
                     createParticle();
                 }, (delay + duration) * 1000);
+            }
+
+            function showGraffiti() {
+                graffitiImage.style.display = 'block';
+                graffitiImage.style.animation = 'graffitiMove 3s infinite alternate';
             }
         });
     </script>
